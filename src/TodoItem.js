@@ -1,13 +1,19 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-class TodoItem extends Component {
-  render() {
-    return (
-      <li>
-        I am a TODO item.
-      </li>
-    );
-  }
-}
+const TodoItem = React.createClass({
+
+    propTypes: {
+        title: React.PropTypes.string.isRequired
+    },
+
+    render() {
+        return (
+            <li>
+                {this.props.title}
+            </li>
+        );
+    }
+
+});
 
 export default TodoItem;
