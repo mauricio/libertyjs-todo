@@ -1,36 +1,44 @@
 import React from 'react';
 import './App.css';
-import TodoItem from "./TodoItem.js"
-import TodoItemForm from "./TodoItemForm.js"
-import {map} from "lodash";
+import TodoView from "./TodoView.js"
+import Immutable from "immutable";
+
+const InitialState = Immutable.fromJS({
+  "Groceries": [
+    "Coconut Milk",
+    "Turmeric",
+    "Bacon"
+  ],
+  "Work": [
+    "Review pull requests",
+    "Finish JIRA issue",
+    "Setup retrospective meeting"
+  ]
+});
 
 const App = React.createClass({
 
   getInitialState() {
-    return {
-      todo: [
-        "Buy brussel sprouts",
-        "Buy pork roast",
-        "Buy tapioca flour"
-      ]
-    };
+    return {data: InitialState};
   },
 
-  addTask(task) {
-    this.setState({todo: this.state.todo.concat(task)});
+  updateList(name, tasks) {
+    this.setState({data: this.state.data.set(name, tasks)})
   },
 
   render() {
-    var todos = map(this.state.todo, (item, index) => {
-      return <TodoItem title={item} key={index}/>
-    });
+    var todos = this.state.data.map((list, name) => {
+      return (<TodoView 
+        tasks={list}
+        key={name}
+        title={name}
+        callback={this.updateList.bind(this, name)}
+        />);
+    }).valueSeq();
     return (
       <div className="App">
         <h1>Libertyjs TODO list</h1>
-        <ul>
-          {todos}
-        </ul>
-        <TodoItemForm callback={this.addTask}/>
+        {todos}
       </div>
     );
   }
