@@ -1,7 +1,8 @@
 import React from 'react';
 import './App.css';
-import TodoView from "./TodoView.js"
+import TodoView from "./TodoView.js";
 import Immutable from "immutable";
+import NewTodoListView from "./NewTodoListView.js";
 
 const InitialState = Immutable.fromJS({
   "Groceries": [
@@ -26,6 +27,10 @@ const App = React.createClass({
     this.setState({data: this.state.data.set(name, tasks)})
   },
 
+  addNewList(name) {
+    this.setState({data: this.state.data.set(name, Immutable.List())});
+  },
+
   render() {
     var todos = this.state.data.map((list, name) => {
       return (<TodoView 
@@ -39,6 +44,7 @@ const App = React.createClass({
       <div className="App">
         <h1>Libertyjs TODO list</h1>
         {todos}
+        <NewTodoListView callback={this.addNewList}/>
       </div>
     );
   }
