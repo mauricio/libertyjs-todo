@@ -7,6 +7,10 @@ export default {
         TodoList: {
             TITLE: "title",
             TODOS: "todos"
-        }
+        },
+    },
+    Types: {
+        TODO: "todo",
+        TODO_LIST: "todo_list"
     }
 }

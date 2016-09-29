@@ -1,38 +1,35 @@
 import React from 'react';
 import './App.css';
 import TodoView from "./TodoView.js";
-import Immutable from "immutable";
 import NewTodoListView from "./NewTodoListView.js";
+import reactor from "./reactor.js";
+import getters from "./getters.js";
+import Actions from "./actions.js";
+import TodoStore from "./TodoStore.js";
 
-const InitialState = Immutable.fromJS({
-  "Groceries": [
-    "Coconut Milk",
-    "Turmeric",
-    "Bacon"
-  ],
-  "Work": [
-    "Review pull requests",
-    "Finish JIRA issue",
-    "Setup retrospective meeting"
-  ]
+reactor.registerStores({
+    "todos" : TodoStore
 });
 
 const App = React.createClass({
+  mixins: [reactor.ReactMixin],
 
-  getInitialState() {
-    return {data: InitialState};
+  getDataBindings() {
+    return {
+      todos: getters.todos
+    }
   },
 
   updateList(name, tasks) {
-    this.setState({data: this.state.data.set(name, tasks)})
+    Actions.updateTodoList(name, tasks);
   },
 
   addNewList(name) {
-    this.setState({data: this.state.data.set(name, Immutable.List())});
+    Actions.addTodoList(name);
   },
 
   render() {
-    var todos = this.state.data.map((list, name) => {
+    var todos = this.state.todos.map((list, name) => {
       return (<TodoView 
         tasks={list}
         key={name}
