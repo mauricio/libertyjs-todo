@@ -21,7 +21,7 @@ const TodoItemForm = React.createClass({
             this.props.callback(this.state.text);
             this.setState({text: ""});
         } else {
-            alert("it's empty, can't add!")
+            alert("it's empty, can't add!");
         }
     },
 
