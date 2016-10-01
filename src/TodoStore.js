@@ -17,6 +17,14 @@ function updateTodoList(state, event) {
     return state.set(title, tasks);
 }
 
+function todoListsReceived(state, event) {
+    return event.reduce((map, taskList) => {
+        return map.set(
+            taskList.get("title"), 
+            taskList.get("tasks").map((task) => task.get("title")) );
+    }, Immutable.Map());
+}
+
 export default Store({
     getInitialState() {
         return Immutable.fromJS(
@@ -38,5 +46,6 @@ export default Store({
     initialize() {
         this.on(ActionTypes.ADD_TODO_LIST, addTodoList);
         this.on(ActionTypes.UPDATE_TODO_LIST, updateTodoList);
+        this.on(ActionTypes.LIST_TODO_LISTS, todoListsReceived);
     }
 });

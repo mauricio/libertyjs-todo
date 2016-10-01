@@ -11,6 +11,8 @@ reactor.registerStores({
     "todos" : TodoStore
 });
 
+Actions.listTodos();
+
 const App = React.createClass({
   mixins: [reactor.ReactMixin],
 
